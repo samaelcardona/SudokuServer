@@ -76,6 +76,9 @@ public class SudokuServer_ implements Runnable {
         if (tecnica.equalsIgnoreCase("T2")) {
             return this.metodo2();
         }
+        if (tecnica.equalsIgnoreCase("T3")) {
+            return this.metodo3();
+        }
 
         return "";
 
@@ -223,6 +226,82 @@ public class SudokuServer_ implements Runnable {
 
         return "<NOT FOUND>";
 
+    }
+
+    public String metodo3() {
+
+        boolean yaEjecutado = false;
+        //este seria para las cajas 
+        for (int fila = 1; fila <= 9; fila = fila + 3) {
+            for (int columna = 1; columna <= 9; columna = columna + 3) {
+
+                int filIni = (fila / 3) * 3;
+                int colIni = (columna / 3) * 3;
+
+                for (int f = filIni; f < filIni + 3; f++) {
+                    for (int c = colIni; c < colIni + 3; c++) {
+                        if (matrizCandidatos[f][c].size() == 2) {
+
+                            int filIni2 = (filIni / 3) * 3;
+                            int colIni2 = (colIni / 3) * 3;
+
+                            for (int f2 = filIni2; f2 < filIni2 + 3; f2++) {
+                                for (int c2 = colIni2; c2 < colIni2 + 3; c2++) {
+                                    if (matrizCandidatos[f2][c2].size() == 2 && f != f2 && c != c2) {
+                                        if (matrizCandidatos[f][c].get(0) == matrizCandidatos[f2][c2].get(0)
+                                                && matrizCandidatos[f][c].get(1) == matrizCandidatos[f2][c2].get(1)) {
+                                            this.eliminarEnCaja(matrizCandidatos[f][c].get(0), f, c);
+                                            this.eliminarEnCaja(matrizCandidatos[f][c].get(1), f, c);
+                                            yaEjecutado = true;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        //filas 
+        if (yaEjecutado == false) {
+            for (int f = 0; f < 9; f++) {
+                for (int c = 0; c < 9; c++) {
+                    if (matrizCandidatos[f][c].size() == 2) {
+                        for (int f2 = 0; f2 < 9; f2++) {
+                            for (int c2 = 0; c2 < 9; c2++) {
+                                if (matrizCandidatos[f2][c2].size() == 2) {
+                                    if (matrizCandidatos[f2][c2].size() == 2 && f != f2 && c != c2) {
+                                        if (matrizCandidatos[f][c].get(0) == matrizCandidatos[f2][c2].get(0)
+                                                && matrizCandidatos[f][c].get(1) == matrizCandidatos[f2][c2].get(1)) {
+                                            this.eliminarEnFila(matrizCandidatos[f][c].get(0), f);
+                                            this.eliminarEnFila(matrizCandidatos[f][c].get(1), f);
+                                            ///toca que crear otro eliminar teniendo en cuenta  los que no se pueden eliminar 
+                                            yaEjecutado = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        System.out.println(""+yaEjecutado);
+        ////mostrar los candidatos
+        for (int i = 0; i < matrizCandidatos.length; i++) {
+            for (int j = 0; j < matrizCandidatos.length; j++) {
+                String cadena = " ";
+                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
+                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
+                }
+                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
+            }
+        }
+
+        return "";
     }
 
     private LinkedList[][] generarMatrizCandidatos(int[][] matrizUsuario) {
