@@ -298,6 +298,10 @@ public class SudokuServer_ implements Runnable {
                                         matrizCandidatos[fila2][columna2].add(valor1);
 
                                         yaEjecutado = true;
+                                        columna=9;
+                                        fila=9;
+                                        columna2=9;
+                                        fila2=9;
 
                                     }
                                 }
@@ -331,6 +335,11 @@ public class SudokuServer_ implements Runnable {
                                         matrizCandidatos[f2][c2].add(valor1);
 
                                         yaEjecutado = true;
+                                        c=9;
+                                        f=9;
+                                        c2=9;
+                                        f2=9;
+                                        
                                     }
                                 }
                             }
@@ -374,6 +383,8 @@ public class SudokuServer_ implements Runnable {
                                                 matrizCandidatos[f2][c2].add(valor1);
 
                                                 yaEjecutado = true;
+                                                columna = 10;
+                                                fila = 10; 
                                             }
                                         }
                                     }
