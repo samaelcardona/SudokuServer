@@ -61,51 +61,90 @@ public class SudokuServer_ implements Runnable {
         this.tecnica = tecnica;
         matrizCandidatos = this.generarMatrizCandidatos(matrizUsuario);
 
-        String cadena;
-        for (int f = 0; f < listaDeListas.size(); f++) {
-            cadena = "";
-            for (int c = 0; c < listaDeListas.get(f).size(); c++) {
-                cadena = cadena + "" + listaDeListas.get(f).get(c);
+//        String cadena;
+//        for (int f = 0; f < listaDeListas.size(); f++) {
+//            cadena = "";
+//            for (int c = 0; c < listaDeListas.get(f).size(); c++) {
+//                cadena = cadena + "" + listaDeListas.get(f).get(c);
+//            }
+//            System.out.println("" + cadena);
+//        }
+        if (tecnica.equalsIgnoreCase("T1")) {
+            System.out.println("T1");
+            boolean respondioBien = true;
+            String cadenaDeMetodo1 = "<OK>";
+            while (respondioBien == true) {
+                System.out.println("T1");
+                String respuesta = this.metodo1();
+                respondioBien = false;
+                if (!respuesta.equals("<NOT FOUND>")) {
+                    cadenaDeMetodo1 = cadenaDeMetodo1 + respuesta;
+                    respondioBien = true;
+                }
+                if (respuesta.equals("<NOT FOUND>") && cadenaDeMetodo1.length() < 5) {
+                    return "<NOT FOUND>";
+                }
             }
-            System.out.println("" + cadena);
+            return cadenaDeMetodo1;
         }
 
-        if (tecnica.equalsIgnoreCase("T1")) {
-            return this.metodo1();
-        }
         if (tecnica.equalsIgnoreCase("T2")) {
-            return this.metodo2();
+
+            System.out.println("T2");
+            boolean respondioBien = true;
+            String cadenaDeMetodo2 = "<OK>";
+            while (respondioBien == true) {
+                System.out.println("T2");
+                String respuesta = this.metodo2();
+                respondioBien = false;
+                if (!respuesta.equals("<NOT FOUND>")) {
+                    cadenaDeMetodo2 = cadenaDeMetodo2 + respuesta;
+                    respondioBien = true;
+                }
+                if (respuesta.equals("<NOT FOUND>") && cadenaDeMetodo2.length() < 5) {
+                    return "<NOT FOUND>";
+                }
+            }
+            return cadenaDeMetodo2;
         }
+
         if (tecnica.equalsIgnoreCase("T3")) {
-            return this.metodo3();
+            System.out.println("T3");
+            boolean respondioBien = true;
+            String cadenaDeMetodo3 = "<OK>";
+            while (respondioBien == true) {
+                System.out.println("T3");
+                String respuesta = this.metodo3();
+                respondioBien = false;
+                // System.out.println("respuesta 3 "+ respuesta);
+                if (!respuesta.equals("<NOT FOUND>")) {
+                    cadenaDeMetodo3 = cadenaDeMetodo3 + respuesta;
+                    respondioBien = true;
+                }
+                if (respuesta.equals("<NOT FOUND>") && cadenaDeMetodo3.length() < 5) {
+                    return "<NOT FOUND>";
+                }
+            }
+            return cadenaDeMetodo3;
         }
 
         return "";
 
     }
 
-    public void resolverPasoApaso() {
-
-    }
-
-    public void resolverUnSoloPaso() {
-
-    }
-
     public String metodo1() {
         // metodo 1
-
-        ////mostrar los candidatos
-        for (int i = 0; i < matrizCandidatos.length; i++) {
-            for (int j = 0; j < matrizCandidatos.length; j++) {
-                String cadena = " ";
-                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
-                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
-                }
-                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
-            }
-        }
-
+        System.out.println("T1");
+//        ////mostrar los candidatos
+//        for (int i = 0; i < matrizCandidatos.length; i++) {
+//            for (int j = 0; j < matrizCandidatos.length; j++) {
+//                String cadena = " ";
+//                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
+//                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
+//                }
+//                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
+//            }
+//        }
         Object candidato = -1;
         int paraFila = -1;
         int paraColumna = -1;
@@ -113,7 +152,7 @@ public class SudokuServer_ implements Runnable {
         for (int i = 0; i < matrizCandidatos.length; i++) {
             for (int j = 0; j < matrizCandidatos.length; j++) {
                 if (matrizCandidatos[i][j].size() == 1) {
-                    System.out.println(" " + (i + 1) + " " + (j + 1) + " Colocar " + matrizCandidatos[i][j].get(0));
+                    // System.out.println(" " + (i + 1) + " " + (j + 1) + " Colocar " + matrizCandidatos[i][j].get(0));
                     candidato = matrizCandidatos[i][j].get(0);
                     paraFila = i;
                     paraColumna = j;
@@ -128,7 +167,7 @@ public class SudokuServer_ implements Runnable {
         if (!candidato.equals(-1)) {
             matrizUsuario[paraFila][paraColumna] = (int) candidato;
 
-            return ("<OK>" + paraFila + "," + paraColumna + "," + candidato);
+            return (paraFila + "," + paraColumna + "," + candidato + ";");
         }
 
         return "<NOT FOUND>";
@@ -137,6 +176,9 @@ public class SudokuServer_ implements Runnable {
     }
 
     public String metodo2() {
+
+        System.out.println("T2");
+
         ///metodo 2
         Object candidato = -1;
         int paraFila = -1;
@@ -154,7 +196,7 @@ public class SudokuServer_ implements Runnable {
                         if (matrizCandidatos[f][c].size() > 0 && candidato.equals(-1)) {
                             for (int i = 0; i < matrizCandidatos[f][c].size(); i++) {
                                 if (this.esUnicoEnLaCaja(matrizCandidatos[f][c].get(i), f, c) == true) {
-                                    System.out.println(" en caja " + (f + 1) + " " + (c + 1) + " Colocar " + matrizCandidatos[f][c].get(i));
+                                    // System.out.println(" en caja " + (f + 1) + " " + (c + 1) + " Colocar " + matrizCandidatos[f][c].get(i));
                                     candidato = matrizCandidatos[f][c].get(i);
                                     paraFila = f;
                                     paraColumna = c;
@@ -179,7 +221,7 @@ public class SudokuServer_ implements Runnable {
                     if (matrizCandidatos[fila][columna].size() > 0 && candidato.equals(-1)) {
                         for (int i = 0; i < matrizCandidatos[fila][columna].size(); i++) {
                             if (this.esUnicoEnLaFila(matrizCandidatos[fila][columna].get(i), fila, columna) == true) {
-                                System.out.println(" en fila " + (fila + 1) + " " + (columna + 1) + " Colocar " + matrizCandidatos[fila][columna].get(i));
+                                //System.out.println(" en fila " + (fila + 1) + " " + (columna + 1) + " Colocar " + matrizCandidatos[fila][columna].get(i));
                                 candidato = matrizCandidatos[fila][columna].get(i);
                                 paraFila = fila;
                                 paraColumna = columna;
@@ -201,7 +243,7 @@ public class SudokuServer_ implements Runnable {
                     if (matrizCandidatos[fila][columna].size() > 0 && candidato.equals(-1)) {
                         for (int i = 0; i < matrizCandidatos[fila][columna].size(); i++) {
                             if (this.esUnicoEnLaColumna(matrizCandidatos[fila][columna].get(i), fila, columna) == true) {
-                                System.out.println(" en  columna " + (fila + 1) + " " + (columna + 1) + " Colocar " + matrizCandidatos[fila][columna].get(i));
+                                // System.out.println(" en  columna " + (fila + 1) + " " + (columna + 1) + " Colocar " + matrizCandidatos[fila][columna].get(i));
                                 candidato = matrizCandidatos[fila][columna].get(i);
                                 paraFila = fila;
                                 paraColumna = columna;
@@ -221,7 +263,7 @@ public class SudokuServer_ implements Runnable {
         if (!candidato.equals(-1)) {
             matrizUsuario[paraFila][paraColumna] = (int) candidato;
 
-            return ("<OK>" + paraFila + "," + paraColumna + "," + candidato);
+            return (paraFila + "," + paraColumna + "," + candidato + ";");
         }
 
         return "<NOT FOUND>";
@@ -230,39 +272,42 @@ public class SudokuServer_ implements Runnable {
 
     public String metodo3() {
 
+        System.out.println("T3");
         boolean yaEjecutado = false;
-        //este seria para las cajas 
-        for (int fila = 1; fila <= 9; fila = fila + 3) {
-            for (int columna = 1; columna <= 9; columna = columna + 3) {
+        Object valor0 = 0;
+        Object valor1 = 0;
+        if (yaEjecutado == false) {
+            for (int columna = 0; columna < 9; columna++) {
+                for (int fila = 0; fila < 9; fila++) {
+                    if (matrizCandidatos[fila][columna].size() == 2) {
+                        for (int columna2 = 0; columna2 < 9; columna2++) {
+                            for (int fila2 = 0; fila2 < 9; fila2++) {
+                                if (matrizCandidatos[fila2][columna2].size() == 2 && fila != fila2 && columna != columna2) {
+                                    if (matrizCandidatos[fila][columna].get(0) == matrizCandidatos[fila2][columna2].get(0)
+                                            && matrizCandidatos[fila][columna].get(1) == matrizCandidatos[fila2][columna2].get(1)) {
 
-                int filIni = (fila / 3) * 3;
-                int colIni = (columna / 3) * 3;
+                                        valor0 = matrizCandidatos[fila][columna].get(0);
+                                        valor1 = matrizCandidatos[fila][columna].get(1);
 
-                for (int f = filIni; f < filIni + 3; f++) {
-                    for (int c = colIni; c < colIni + 3; c++) {
-                        if (matrizCandidatos[f][c].size() == 2) {
+                                        this.eliminarEnColumna(valor0, columna);
+                                        this.eliminarEnColumna(valor1, columna);
 
-                            int filIni2 = (filIni / 3) * 3;
-                            int colIni2 = (colIni / 3) * 3;
+                                        matrizCandidatos[fila][columna].add(valor0);
+                                        matrizCandidatos[fila][columna].add(valor1);
+                                        matrizCandidatos[fila2][columna2].add(valor0);
+                                        matrizCandidatos[fila2][columna2].add(valor1);
 
-                            for (int f2 = filIni2; f2 < filIni2 + 3; f2++) {
-                                for (int c2 = colIni2; c2 < colIni2 + 3; c2++) {
-                                    if (matrizCandidatos[f2][c2].size() == 2 && f != f2 && c != c2) {
-                                        if (matrizCandidatos[f][c].get(0) == matrizCandidatos[f2][c2].get(0)
-                                                && matrizCandidatos[f][c].get(1) == matrizCandidatos[f2][c2].get(1)) {
-                                            this.eliminarEnCaja(matrizCandidatos[f][c].get(0), f, c);
-                                            this.eliminarEnCaja(matrizCandidatos[f][c].get(1), f, c);
-                                            yaEjecutado = true;
-                                        }
+                                        yaEjecutado = true;
+
                                     }
                                 }
                             }
-
                         }
                     }
                 }
             }
         }
+
         //filas 
         if (yaEjecutado == false) {
             for (int f = 0; f < 9; f++) {
@@ -270,15 +315,22 @@ public class SudokuServer_ implements Runnable {
                     if (matrizCandidatos[f][c].size() == 2) {
                         for (int f2 = 0; f2 < 9; f2++) {
                             for (int c2 = 0; c2 < 9; c2++) {
-                                if (matrizCandidatos[f2][c2].size() == 2) {
-                                    if (matrizCandidatos[f2][c2].size() == 2 && f != f2 && c != c2) {
-                                        if (matrizCandidatos[f][c].get(0) == matrizCandidatos[f2][c2].get(0)
-                                                && matrizCandidatos[f][c].get(1) == matrizCandidatos[f2][c2].get(1)) {
-                                            this.eliminarEnFila(matrizCandidatos[f][c].get(0), f);
-                                            this.eliminarEnFila(matrizCandidatos[f][c].get(1), f);
-                                            ///toca que crear otro eliminar teniendo en cuenta  los que no se pueden eliminar 
-                                            yaEjecutado = true;
-                                        }
+                                if (matrizCandidatos[f2][c2].size() == 2 && f != f2 && c != c2) {
+                                    if (matrizCandidatos[f][c].get(0) == matrizCandidatos[f2][c2].get(0)
+                                            && matrizCandidatos[f][c].get(1) == matrizCandidatos[f2][c2].get(1)) {
+
+                                        valor0 = matrizCandidatos[f][c].get(0);
+                                        valor1 = matrizCandidatos[f][c].get(1);
+
+                                        this.eliminarEnFila(valor0, f);
+                                        this.eliminarEnFila(valor1, f);
+
+                                        matrizCandidatos[f][c].add(valor0);
+                                        matrizCandidatos[f][c].add(valor1);
+                                        matrizCandidatos[f2][c2].add(valor0);
+                                        matrizCandidatos[f2][c2].add(valor1);
+
+                                        yaEjecutado = true;
                                     }
                                 }
                             }
@@ -289,19 +341,79 @@ public class SudokuServer_ implements Runnable {
 
         }
 
-        System.out.println(""+yaEjecutado);
-        ////mostrar los candidatos
-        for (int i = 0; i < matrizCandidatos.length; i++) {
-            for (int j = 0; j < matrizCandidatos.length; j++) {
-                String cadena = " ";
-                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
-                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
+        if (yaEjecutado == false) {
+            //este seria para las cajas 
+            for (int fila = 1; fila <= 9; fila = fila + 3) {
+                for (int columna = 1; columna <= 9; columna = columna + 3) {
+
+                    int filIni = (fila / 3) * 3;
+                    int colIni = (columna / 3) * 3;
+
+                    for (int f = filIni; f < filIni + 3; f++) {
+                        for (int c = colIni; c < colIni + 3; c++) {
+                            if (matrizCandidatos[f][c].size() == 2) {
+
+                                int filIni2 = (filIni / 3) * 3;
+                                int colIni2 = (colIni / 3) * 3;
+
+                                for (int f2 = filIni2; f2 < filIni2 + 3; f2++) {
+                                    for (int c2 = colIni2; c2 < colIni2 + 3; c2++) {
+                                        if (matrizCandidatos[f2][c2].size() == 2 && f != f2 && c != c2) {
+                                            if (matrizCandidatos[f][c].get(0) == matrizCandidatos[f2][c2].get(0)
+                                                    && matrizCandidatos[f][c].get(1) == matrizCandidatos[f2][c2].get(1)) {
+
+                                                valor0 = matrizCandidatos[f][c].get(0);
+                                                valor1 = matrizCandidatos[f][c].get(1);
+
+                                                this.eliminarEnCaja(valor0, f, c);
+                                                this.eliminarEnCaja(valor1, f, c);
+
+                                                matrizCandidatos[f][c].add(valor0);
+                                                matrizCandidatos[f][c].add(valor1);
+                                                matrizCandidatos[f2][c2].add(valor0);
+                                                matrizCandidatos[f2][c2].add(valor1);
+
+                                                yaEjecutado = true;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
                 }
-                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
             }
         }
 
-        return "";
+//        System.out.println("" + yaEjecutado);
+//        ////mostrar los candidatos
+//        for (int i = 0; i < matrizCandidatos.length; i++) {
+//            for (int j = 0; j < matrizCandidatos.length; j++) {
+//                String cadena = " ";
+//                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
+//                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
+//                }
+//                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
+//            }
+//        }
+        if (yaEjecutado == true) {
+            //System.out.println("Hola");
+            String respuesta = this.metodo1();
+            if (!respuesta.equals("<NOT FOUND>")) {
+                return respuesta;
+            } else {
+                String respuesta2 = this.metodo2();
+                if (!respuesta2.equals("<NOT FOUND>")) {
+                    return respuesta2;
+                } else {
+                    return "<NOT FOUND>";
+                }
+            }
+        } else {
+            return "<NOT FOUND>";
+        }
+
     }
 
     private LinkedList[][] generarMatrizCandidatos(int[][] matrizUsuario) {
