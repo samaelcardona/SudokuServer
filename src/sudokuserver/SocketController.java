@@ -85,7 +85,7 @@ public class SocketController implements Runnable {
 
                 readLine = readLine.trim();
 
-                if (readLine.startsWith("<board>")) {
+                if (readLine.startsWith("<board>")||readLine.startsWith("<BOARD>")) {
 
                     matrizTecnica = readLine.substring(7).split(";");
                    

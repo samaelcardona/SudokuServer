@@ -167,7 +167,7 @@ public class SudokuServer_ implements Runnable {
         if (!candidato.equals(-1)) {
             matrizUsuario[paraFila][paraColumna] = (int) candidato;
 
-            return (paraFila + "," + paraColumna + "," + candidato + ";");
+            return (paraFila + "" + paraColumna + "" + candidato + ";");
         }
 
         return "<NOT FOUND>";
@@ -263,7 +263,7 @@ public class SudokuServer_ implements Runnable {
         if (!candidato.equals(-1)) {
             matrizUsuario[paraFila][paraColumna] = (int) candidato;
 
-            return (paraFila + "," + paraColumna + "," + candidato + ";");
+            return (paraFila + "" + paraColumna + "" + candidato + ";");
         }
 
         return "<NOT FOUND>";
@@ -298,10 +298,10 @@ public class SudokuServer_ implements Runnable {
                                         matrizCandidatos[fila2][columna2].add(valor1);
 
                                         yaEjecutado = true;
-                                        columna=9;
-                                        fila=9;
-                                        columna2=9;
-                                        fila2=9;
+                                        columna = 9;
+                                        fila = 9;
+                                        columna2 = 9;
+                                        fila2 = 9;
 
                                     }
                                 }
@@ -335,11 +335,11 @@ public class SudokuServer_ implements Runnable {
                                         matrizCandidatos[f2][c2].add(valor1);
 
                                         yaEjecutado = true;
-                                        c=9;
-                                        f=9;
-                                        c2=9;
-                                        f2=9;
-                                        
+                                        c = 9;
+                                        f = 9;
+                                        c2 = 9;
+                                        f2 = 9;
+
                                     }
                                 }
                             }
@@ -384,7 +384,7 @@ public class SudokuServer_ implements Runnable {
 
                                                 yaEjecutado = true;
                                                 columna = 10;
-                                                fila = 10; 
+                                                fila = 10;
                                             }
                                         }
                                     }
@@ -397,17 +397,6 @@ public class SudokuServer_ implements Runnable {
             }
         }
 
-//        System.out.println("" + yaEjecutado);
-//        ////mostrar los candidatos
-//        for (int i = 0; i < matrizCandidatos.length; i++) {
-//            for (int j = 0; j < matrizCandidatos.length; j++) {
-//                String cadena = " ";
-//                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
-//                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
-//                }
-//                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
-//            }
-//        }
         if (yaEjecutado == true) {
             //System.out.println("Hola");
             String respuesta = this.metodo1();
@@ -594,6 +583,20 @@ public class SudokuServer_ implements Runnable {
     public void SendAll(String message) {
         for (int i = 0; i < this.getClients().size(); i++) {
             this.getClients().get(i).writeMessage(message);
+        }
+    }
+
+    public void mostrarCandidatos() {
+
+        ////mostrar los candidatos
+        for (int i = 0; i < matrizCandidatos.length; i++) {
+            for (int j = 0; j < matrizCandidatos.length; j++) {
+                String cadena = " ";
+                for (int k = 0; k < matrizCandidatos[i][j].size(); k++) {
+                    cadena = cadena + " " + matrizCandidatos[i][j].get(k);
+                }
+                System.out.println("Candidatos en " + (i + 1) + " " + (j + 1) + " " + cadena);
+            }
         }
     }
 
